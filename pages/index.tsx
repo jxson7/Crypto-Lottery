@@ -1,18 +1,24 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import Header from '../components/header'
+
+
+/**
+ * 
+ * link for YT: https://youtu.be/oNlhptQmChc?t=2767 
+ */
 
 const Home: NextPage = () => {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
+    <div className=" bg-[#091B18] min-h-screen flex flex-col">
       <Head>
         <title>Crypto Lottery Draw</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-     <h1>
-      Let's build a lotto app 
-     </h1>
+      <Header />
+
 
     </div>
   )
