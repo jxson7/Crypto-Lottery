@@ -8,9 +8,10 @@ interface Props{
 }
 
 function NavButton({title, isActive}:Props){
-  return <button className={`${ isActive && "bg-[#036756]"} hover:bg-[#036756] text-white py-2 px-2 rounded`}
+  return( <button className={`${ isActive && "bg-[#036756]"} hover:bg-[#036756] text-white py-2 px-2 rounded font-bold`}
   > {title}
-</button>;  
+</button>
+  );  
 }
 
 export default NavButton
