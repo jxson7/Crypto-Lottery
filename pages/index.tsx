@@ -18,7 +18,7 @@ import { useState } from 'react'
 
 /**
  * 
- * link for YT: https://youtu.be/oNlhptQmChc?t=4875
+ * link for YT: https://youtu.be/oNlhptQmChc?t=6456
  */
 
 const Home: NextPage = () => {
