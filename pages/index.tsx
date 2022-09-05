@@ -22,7 +22,7 @@ import toast from 'react-hot-toast'
 
 /**
  * 
- * link for YT: https://youtu.be/oNlhptQmChc?t=6456
+ * link for YT: https://youtu.be/oNlhptQmChc?t=9005
  */
 
 const Home: NextPage = () => {
@@ -36,13 +36,25 @@ const Home: NextPage = () => {
   const { data : ticketCommission } = useContractData(contract, "ticketCommission")
   const { data : expiration } = useContractData(contract, "expiration")
   
-  
+  const {mutateAsync: BuyTickets} = useContractCall(contract, "buyTickets");
+
+
   const handleClick = async () => {
     if (!ticketPrice) return;
 
     const notification = toast.loading("Buying tickets...");
 
     try{
+      // const data = await BuyTickets({
+      //   value: ethers.utils.parseEther(
+      //     Number(ethers.utils.formatEther(ticketPrice)) 
+      //       * quantity).toString()),
+      //   });
+
+        toast.success("Tickets bought successfully!", {
+          id: notification,
+        });
+
 
 
     }catch(err){
