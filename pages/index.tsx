@@ -178,10 +178,13 @@ const Home: NextPage = () => {
             </div>
               {userTicket > 0 && (
                 <div className='stats'>
-                  <p> you have {userTicket} Tickets in this draw</p>
-                <div>
+                  <p className='text-lg mb-2'> you have {userTicket} tickets in this draw</p>
+                <div className='flex max-w-sm flex-wrap gap-x-2 gap-y-2'>
                   {Array(userTicket).fill("").map((_, index) => (
-                    <p key = {index} > {index + 1} </p>
+                    <p key = {index}
+                    className='text-emerald-300 h-20 w-12 bg-emerald-500/30 rounded-lg flex flex-shrink-0 items-center justify-center text-xs italic'
+                    >
+                     {index + 1} </p>
                   ))}
                 </div>
                 </div>
@@ -194,6 +197,30 @@ const Home: NextPage = () => {
         </div>
       </div>
       </div>
+
+      <footer className='border-t border-emerald-500/20 flex items-center
+      text-white justify-center p-5'>
+        <img
+        className='h-10 w-10 filter hue-rotate-90 opacity-20 rounded-full'
+        src="https://i.ibb.co/yRrSkyC/IMG-0093.jpg"
+        alt=''
+        
+        
+        />
+        <p className='text-xs text-emerald-900 pl-5'>
+          DISCLAIMER: This video is for educational purposes only. The content of this
+          project are not for the purposes of gambling, or with the intention of becoming
+          a lure to gamble. Instead, the information provided is for the purpose of learning
+          and entertainment only. We are not liable for any losses that are incurred or 
+          problems that arise at online casinos after reading and consideration of this 
+          project and tutorial. 
+          If you are gambling online utilizing information from this application/tutorial, you are 
+          completely and totally at your own risk. 
+        </p>
+
+
+
+      </footer>
     </div>
   )
 }
