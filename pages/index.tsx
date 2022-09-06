@@ -13,7 +13,7 @@ import Image from 'next/image'
 import Header from '../components/Header'
 import Loading from '../components/Loading'
 import Login from '../components/Login'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { currency } from '../constants'
 import CountdownTimer from '../components/CountdownTimer'
@@ -28,6 +28,7 @@ import {Toaster} from 'react-hot-toast'
 const Home: NextPage = () => {
 
   const address = useAddress();
+  const [userTicket, setUserTicket] = useState(0);
   const [quantity, setQuantity] = useState<number>(1);
   const {contract, isLoading} = useContract(process.env.NEXT_PUBLIC_LOTTERY_CONTRACT_ADDRESS);
   const { data : remainingTickets } = useContractData(contract, "RemainingTickets");
@@ -35,8 +36,24 @@ const Home: NextPage = () => {
   const { data: ticketPrice } = useContractData(contract, "ticketPrice")
   const { data : ticketCommission } = useContractData(contract, "ticketCommission")
   const { data : expiration } = useContractData(contract, "expiration")
+  const { data : tickets } = useContractData(contract, "getTickets")
   
   const {mutateAsync: BuyTickets} = useContractCall(contract, "buyTickets");
+
+  useEffect(() => {
+    if (!tickets) return;
+
+    const totalTickets: string[] = tickets;
+    const noOfUserTickets = totalTickets.reduce(
+      (total, ticketAddress) => (ticketAddress 
+      === address ? total + 1 : total), 0
+      );
+      setUserTicket(noOfUserTickets);
+
+      console.log(userTicket);
+
+    },
+    [tickets, address]);    
 
 
   const handleClick = async () => {
@@ -45,9 +62,12 @@ const Home: NextPage = () => {
     const notification = toast.loading("Buying tickets...");
 
     try{
-      const data = await BuyTickets([{
-         value: ethers.utils.parseEther((
-          Number(ethers.utils.formatEther(ticketPrice)) * quantity).toString()
+      const data = await BuyTickets([
+        {
+         value: ethers.utils.parseEther(
+          (
+          Number(ethers.utils.formatEther(ticketPrice)) * quantity
+          ).toString()
          ),
       },
       ]);
@@ -56,11 +76,12 @@ const Home: NextPage = () => {
         });
         console.info("contract call success", data);
     }catch(err){
-      toast.error("Whoops! Something went wrong!");
-    }
+      console.error("contract call error", err);
+            };
+    };
 
 
-  }
+  
 
   if(!address) return (<Login/>)
 
@@ -155,7 +176,16 @@ const Home: NextPage = () => {
               Number(ethers.utils.formatEther(ticketPrice?.toString())) * quantity}{" "}{currency}
             </button>
             </div>
-
+              {userTicket > 0 && (
+                <div className='stats'>
+                  <p> you have {userTicket} Tickets in this draw</p>
+                <div>
+                  {Array(userTicket).fill("").map((_, index) => (
+                    <p key = {index} > {index + 1} </p>
+                  ))}
+                </div>
+                </div>
+              )}
             </div>
         </div>
       <div>
