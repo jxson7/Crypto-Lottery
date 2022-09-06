@@ -18,7 +18,7 @@ import { ethers } from 'ethers'
 import { currency } from '../constants'
 import CountdownTimer from '../components/CountdownTimer'
 import toast from 'react-hot-toast'
-
+import {Toaster} from 'react-hot-toast'
 
 /**
  * 
@@ -45,21 +45,18 @@ const Home: NextPage = () => {
     const notification = toast.loading("Buying tickets...");
 
     try{
-      // const data = await BuyTickets({
-      //   value: ethers.utils.parseEther(
-      //     Number(ethers.utils.formatEther(ticketPrice)) 
-      //       * quantity).toString()),
-      //   });
-
+      const data = await BuyTickets([{
+         value: ethers.utils.parseEther((
+          Number(ethers.utils.formatEther(ticketPrice)) * quantity).toString()
+         ),
+      },
+      ]);
         toast.success("Tickets bought successfully!", {
           id: notification,
         });
-
-
-
+        console.info("contract call success", data);
     }catch(err){
       toast.error("Whoops! Something went wrong!");
-      id: notification;
     }
 
 
@@ -146,16 +143,19 @@ const Home: NextPage = () => {
               </div>
             </div>
             <button 
-            disabled={expiration?.toString() < Date.now().toString()|| remainingTickets?.toNumber() === 0 }
+            disabled={expiration?.toString() < Date.now().toString()|| 
+              remainingTickets?.toNumber() === 0 
+            }
             onClick={handleClick}
-
             className='mt-5 w-full bg-gradient-to-br 
             from-orange-500 to to-emerald-600 px-10 py-5 rounded-md
             text-white shadow-xl disabled:from-gray-600 disabled:text-gray-100
               disabled:to-gray-600 disabled:cursor-not-allowed'>
-              Buy Tickets
+              Buy {quantity} Tickets for {ticketPrice &&
+              Number(ethers.utils.formatEther(ticketPrice?.toString())) * quantity}{" "}{currency}
             </button>
             </div>
+
             </div>
         </div>
       <div>
