@@ -22,7 +22,7 @@ import {Toaster} from 'react-hot-toast'
 
 /**
  * 
- * link for YT: https://youtu.be/oNlhptQmChc?t=9005
+ * link for YT: https://youtu.be/oNlhptQmChc?t=10357
  */
 
 const Home: NextPage = () => {
@@ -38,7 +38,31 @@ const Home: NextPage = () => {
   const { data : expiration } = useContractData(contract, "expiration")
   const { data : tickets } = useContractData(contract, "getTickets")
   
-  const {mutateAsync: BuyTickets} = useContractCall(contract, "buyTickets");
+  const {mutateAsync: BuyTickets} = useContractCall(contract, "BuyTickets");
+  const {mutateAsync: WithdrawWinnings} = useContractCall(contract, "WithdrawWinnings");
+
+
+
+  const {data: winnings} = useContractData(contract, "getWinningsForAddress",address)
+
+
+  const onWithdrawWinnings = async () => {
+    const notification = toast.loading("Withdrawing winnings...");
+    try {
+
+      const data = await WithdrawWinnings([{}]);
+      toast.success("Winnings withdrawn successfully!", {id: notification});
+
+    }
+    catch (err){
+      toast.error("Error withdrawing winnings", {id: notification});
+
+      console.error("Contract failure", err);
+    }
+
+    }
+
+  
 
   useEffect(() => {
     if (!tickets) return;
@@ -101,6 +125,19 @@ const Home: NextPage = () => {
 
       <div className='flex-1'>
       <Header />
+
+
+      {winnings > 0 &&(
+        <div className='max-w-md md:max-w-2xl lg:max-w-4xl mx-auto mt-5'>
+          <button onClick={onWithdrawWinnings}className='p-4 bg-gradient-to-b from-orange-500 to-emerald-600 text-center rounded-xl w-full'>
+            <p className='font-bold'>WINNER WINNER CHICKEN DINNER! </p>
+            <p> Total Winnings: {ethers.utils.formatEther(winnings.toString())}{" "}{currency}</p>
+            <br />
+            <p className='font-semibold'> Click here to withdraw.</p>
+          </button>
+        </div>
+      )}
+
 
       {/* next draw box */}
         <div className="space-y-5 md:space-y-0 m-5 md:flex 
