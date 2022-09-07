@@ -23,13 +23,13 @@ function AdminControls() {
     const {mutateAsync: DrawWinnerTicket} = useContractCall(contract, "DrawWinnerTicket");
     const {mutateAsync: RefundAll} = useContractCall(contract, "RefundAll");
     const {mutateAsync: restartDraw} = useContractCall(contract, "restartDraw");
-    const {mutateAsync: WithdrawCommission} = useContractCall(contract, "WithDrawCommission");
+    const {mutateAsync: WithdrawCommission} = useContractCall(contract, "WithdrawCommission");
 
 
     const drawWinner = async () => {
         const notification = toast.loading("Drawing winner...");
         try {
-            await DrawWinnerTicket([{}]);
+            const data =  await DrawWinnerTicket([{}]);
             toast.success("Winner drawn successfully!", {id: notification});
         }
         catch (err){
@@ -41,7 +41,7 @@ function AdminControls() {
     const onRestartDraw = async () => {
         const notification = toast.loading("Restarting draw...");
         try {
-            await restartDraw([{}]);
+            const data =  await restartDraw([{}]);
             toast.success("Draw restarted successfully!", {id: notification});
         }
         catch (err){
@@ -54,7 +54,7 @@ function AdminControls() {
     const onWithdrawCommission = async () => {
         const notification = toast.loading("Withdrawing commission...");
         try {
-            await WithdrawCommission([{}]);
+            const data = await WithdrawCommission([{}]);
             toast.success("Commission withdrawn successfully!", {id: notification});
         }
         catch (err){
@@ -66,7 +66,7 @@ function AdminControls() {
     const onRefundAll = async () => {
         const notification = toast.loading("Refunding all...");
         try {
-            await RefundAll([{}]);
+            const data = await RefundAll([{}]);
             toast.success("Refunded all successfully!", {id: notification});
         }
         catch (err){
@@ -88,13 +88,13 @@ function AdminControls() {
         </p>
 
         <div className='flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2'>
-            <button onClick={drawWinner }className='admin-buttons'> 
+            <button onClick={drawWinner}className='admin-buttons'> 
                 <StarIcon className='h-6 mx-auto mb-2'/>
                 Draw Winner</button>
             <button onClick={onWithdrawCommission}className='admin-buttons'> 
                 <CurrencyDollarIcon className='h-6 mx-auto mb-2'/>
                 Withdraw Commission</button>
-            <button onClick={onRestartDraw }className='admin-buttons'> 
+            <button onClick={onRestartDraw}className='admin-buttons'> 
                 <ArrowPathIcon className='h-6 mx-auto mb-2'/>
                 Restart Draw</button>
             <button onClick={onRefundAll}className='admin-buttons'> 
