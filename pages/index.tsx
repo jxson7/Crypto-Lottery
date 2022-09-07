@@ -19,6 +19,8 @@ import { currency } from '../constants'
 import CountdownTimer from '../components/CountdownTimer'
 import toast from 'react-hot-toast'
 import {Toaster} from 'react-hot-toast'
+import Marquee from 'react-fast-marquee'
+import AdminControls from '../components/AdminControls'
 
 /**
  * 
@@ -40,17 +42,15 @@ const Home: NextPage = () => {
   
   const {mutateAsync: BuyTickets} = useContractCall(contract, "BuyTickets");
   const {mutateAsync: WithdrawWinnings} = useContractCall(contract, "WithdrawWinnings");
-
-
-
   const {data: winnings} = useContractData(contract, "getWinningsForAddress",address)
-
-
+  const {data: lastWinner} = useContractData(contract, "lastWinner");
+  const {data: lastWinnerAmount} = useContractData(contract, "lastWinnerAmount");
+  const {data: isLotteryOperator} = useContractData(contract, "lotteryOperator");
   const onWithdrawWinnings = async () => {
     const notification = toast.loading("Withdrawing winnings...");
     try {
 
-      const data = await WithdrawWinnings([{}]);
+      await WithdrawWinnings([{}]);
       toast.success("Winnings withdrawn successfully!", {id: notification});
 
     }
@@ -117,7 +117,7 @@ const Home: NextPage = () => {
 
 
   return (
-    <div className=" bg-[#091B18] min-h-screen flex flex-col">
+    <div className="bg-[#091B18] min-h-screen flex flex-col">
       <Head>
         <title>Crypto Lottery Draw</title>
         <link rel="icon" href="/favicon.ico" />
@@ -125,6 +125,25 @@ const Home: NextPage = () => {
 
       <div className='flex-1'>
       <Header />
+      <Marquee className="bg-[#0A1F1C] p-5 mb-5" gradient={false} speed={100}>
+        <div className='flex space-x-2 mx-10'>
+          <h4 className='text-white font-bold'>Last Winning: 
+          {lastWinner?.toString()}
+          </h4>
+          <h4 className='text-white font-bold'>Previous winnings: {" "}
+          {
+            lastWinnerAmount && ethers.utils.formatEther
+            (lastWinnerAmount?.toString())}{" "}{currency}{" "}
+          </h4>
+        </div>
+
+      </Marquee>
+
+      {isLotteryOperator === address && (
+        <div className='flex justify-center'>
+          <AdminControls/>
+        </div>
+      )}
 
 
       {winnings > 0 &&(
