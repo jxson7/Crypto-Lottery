@@ -7,7 +7,7 @@ function Login() {
     <div className='bg-[#091B18] min-h-screen flex flex-col items-center justify-center text-center'>
         <div className='flex flex-col items-center mb-10 '>
             <img className='rounded-full h-56 w-56 mb-10' 
-            src="https://i.ibb.co/yRrSkyC/IMG-0093.jpg" 
+            src="https://pbs.twimg.com/profile_images/1543652552142491648/goK0notC_400x400.jpg" 
             alt="" />
             <h1 className='text-6xl text-white font-bold'>CRYPTO LOTTERY DRAW</h1>
             <h2 className='text-white'>Get Started by logging in with your MetaMask</h2>
