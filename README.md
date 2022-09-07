@@ -1,4 +1,4 @@
-# 🚙 Uber Application Using React Native 🚙
+# 🚙 Crypto Lottery using React.js and Next.js 🚙
 
 The following application focuses on applying a series of technologies to develop a system whereby a user/host can host and partake in a lottery draw using Crypto currency. As part of this project, React, Solidity and ThirdWeb technologies were used to support the development. A thirdWeb contract was also deployed for functionality purposes. I would also like to thank Sonny Sangha on this project. Note, in order to utilise and attempt to interact with the application, the user may be required to sign up to MetaMask, a Crypto Wallet system. 
 
@@ -14,6 +14,7 @@ The following application focuses on applying a series of technologies to develo
 ## Testing of Application and Output
 
 #### Login
+<img src="https://github.com/jxson7/Crypto-Lottery/blob/main/assets/login.png" width="1000" >
 
 
 #### Main Admin Page for Interaction
